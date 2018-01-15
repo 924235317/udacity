@@ -47,11 +47,11 @@ class Vector(object):
     def normalized(self):
         try:
             magnitude = self.magnitude()
-            return self.times_scalar(1.0/magnitude)
+            return self.times_scalar(Decimal(1.0/magnitude))
         except ZeroDivisionError:
             raise Exception(self.CANNOT_NORMALIZE_ZERO_VECTOR_MSG)
-        except TypeError:
-            raise Exception("hehe")
+        # except TypeError:
+        #     raise Exception("hehe")
 
     def dot(self, v):
         return sum([x * y for x, y in zip(self.coordinates, v.coordinates)])
@@ -79,10 +79,17 @@ class Vector(object):
         return abs(self.dot(v)) < tolerance
 
     def is_parallel_to(self, v, tolerance=1e-10):
+        # print tolerance
+        # print self.is_zero()
+        # print v.is_zero()
+        # print self.angle_with(v) < tolerance
+        # print self.angle_with(v) - pi < tolerance
+        # print abs(self.angle_with(v) - pi)
+        # print(pi)
         return (self.is_zero() or
                 v.is_zero() or
-                self.angle_with(v) < tolerance or
-                self.angle_with(v) - pi < tolerance)
+                abs(self.angle_with(v) < tolerance) or
+                abs(self.angle_with(v) - pi) < tolerance)
 
     def is_zero(self, tolerance=1e-10):
         return self.magnitude() < tolerance
@@ -149,9 +156,6 @@ class Vector(object):
     # ----------------some some some-----------------------------
     def __str__(self):
         return 'Vector: {}'.format(self.coordinates)
-
-    def __eq__(self, v):
-        return self.coordinates == v.coordinates
 
     def __sub__(self, v):
         if not self.dimension == v.dimension:
