@@ -2,7 +2,7 @@ from math import sqrt, acos, pi
 from decimal import Decimal, getcontext
 
 
-getcontext().prec = 5
+getcontext().prec = 30
 
 
 class Vector(object):
@@ -42,12 +42,12 @@ class Vector(object):
 
     def magnitude(self):
         coordinates_squared = [x**2 for x in self.coordinates]
-        return sqrt(sum(coordinates_squared))
+        return sum(coordinates_squared).sqrt()#bug
 
     def normalized(self):
         try:
             magnitude = self.magnitude()
-            return self.times_scalar(Decimal(1.0/magnitude))
+            return self.times_scalar(Decimal('1.0')/magnitude)
         except ZeroDivisionError:
             raise Exception(self.CANNOT_NORMALIZE_ZERO_VECTOR_MSG)
         # except TypeError:
@@ -60,10 +60,13 @@ class Vector(object):
         try:
             u1 = self.normalized()
             u2 = v.normalized()
+            # print "u1, u2 ", u1, u2
+            # print "u1 dot u2", u1.dot(u2)
             angle_in_radians = acos(u1.dot(u2))
-
+            # print "angle_in_radians ", angle_in_radians
             if in_degrees:
                 degrees_per_radian = 180. / pi
+                # print "degrees_per_radian", degrees_per_radian
                 return angle_in_radians * degrees_per_radian
             else:
                 return angle_in_radians
@@ -79,16 +82,9 @@ class Vector(object):
         return abs(self.dot(v)) < tolerance
 
     def is_parallel_to(self, v, tolerance=1e-10):
-        # print tolerance
-        # print self.is_zero()
-        # print v.is_zero()
-        # print self.angle_with(v) < tolerance
-        # print self.angle_with(v) - pi < tolerance
-        # print abs(self.angle_with(v) - pi)
-        # print(pi)
         return (self.is_zero() or
                 v.is_zero() or
-                abs(self.angle_with(v) < tolerance) or
+                abs(self.angle_with(v)) < tolerance or
                 abs(self.angle_with(v) - pi) < tolerance)
 
     def is_zero(self, tolerance=1e-10):
@@ -196,3 +192,4 @@ if __name__ == "__main__":
     print(a.cross(b))
     print(c.area_of_parallelogram(d))
     print(e.area_of_triangle(f))
+    print a.times_scalar(10)

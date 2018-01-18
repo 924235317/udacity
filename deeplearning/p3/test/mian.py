@@ -26,3 +26,11 @@ print(v.is_zero())
 # print(type(v.dot(v)))
 #
 # print([x+y+z for x, y, z in ll])
+
+
+def swap(a, b):
+    a, b = b, a
+a = 1
+b = 2
+swap(a, b)
+print a, b
