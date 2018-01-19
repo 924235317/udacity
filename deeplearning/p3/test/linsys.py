@@ -25,6 +25,7 @@ class LinearSystem(object):
 
             self.planes = planes
             self.dimension = d
+            self.num_of_planes = len(planes)
 
         except AssertionError:
             raise Exception(self.ALL_PLANES_MUST_BE_IN_SAME_DIM_MSG)
@@ -53,9 +54,13 @@ class LinearSystem(object):
         self.planes[row_to_be_added_to] = Plane(line_normal_vector, line_constant_term)
 
     # --------------triangle form--------------------
+    #def swap_nonzero_to_palce(self, row, col):
+
+
     def compute_triangular_form(self):
         system = deepcopy(self)
 
+        #swap the first plane which the first coefficient of variables to top
         indices = system.indices_of_first_nonzero_terms_in_each_row()
         idx = 0
         while idx < len(indices):
@@ -67,8 +72,30 @@ class LinearSystem(object):
                     break
             idx += 1
 
-        idx = 1
-        while idx < self.
+        #
+        dimension = min(system.num_of_planes, system.planes[0].dimension)
+        #print system.dimension, system.planes[0].dimension, dimension
+        for idx in range(0, dimension - 1):
+            n = system.planes[idx].normal_vector.coordinates
+            for i in range(idx+1, system.num_of_planes):
+                #print i
+                n1 = system.planes[i].normal_vector.coordinates
+                #print n1
+                if n1[idx] == 0:
+
+                    continue
+                else:
+                    coefficient = -n1[idx] / n[idx]
+                    system.add_multiple_times_row_to_row(coefficient, idx, i)
+
+        #clear some no-used planes
+        #print dimension, system.num_of_planes
+        if dimension < system.num_of_planes:
+            for i in range(dimension, system.num_of_planes):
+                #print i
+                system.planes[i] = Plane()
+                #print system.planes[i]
+
         return system
 
     def indices_of_first_nonzero_terms_in_each_row(self):
@@ -244,10 +271,11 @@ def test_triangle_form():
         print 'test case 4 failed'
 
 if __name__ == '__main__':
-    p1 = Plane(normal_vector=Vector(['0', '1', '1']), constant_term='1')
-    p2 = Plane(normal_vector=Vector(['0', '-1', '1']), constant_term='2')
-    p3 = Plane(normal_vector=Vector(['1', '2', '-5']), constant_term='3')
-    s = LinearSystem([p1, p2, p3])
-    print s.compute_triangular_form()
-    print Plane()
-    #acos(1.0) < 2
+    # p1 = Plane(normal_vector=Vector(['1', '1', '1']), constant_term='1')
+    # p2 = Plane(normal_vector=Vector(['1', '-1', '1']), constant_term='2')
+    # p3 = Plane(normal_vector=Vector(['1', '2', '-5']), constant_term='3')
+    # s = LinearSystem([p1, p2, p3])
+    # print s.compute_triangular_form()
+    # print Plane()
+    #test_row()
+    test_triangle_form()
