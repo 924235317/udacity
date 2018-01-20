@@ -1,3 +1,7 @@
 *.pyc
 class-10_video
 *.zip
+*.idea
+
+/linear_algebra/.git
+/linear_algebra/.gitignore
