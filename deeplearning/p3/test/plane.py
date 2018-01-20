@@ -19,7 +19,7 @@ class Plane(object):
 
         if not constant_term:
             constant_term = Decimal('0')
-        self.constant_term = Decimal(constant_term)
+        self.constant_term = Decimal(str(constant_term))
 
         self.set_basepoint()
 

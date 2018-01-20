@@ -35,7 +35,7 @@ class Vector(object):
 
     # ----------------inner product-----------------------------
     def times_scalar(self, c):
-        return Vector([Decimal(c)*x for x in self.coordinates])
+        return Vector([Decimal(str(c))*x for x in self.coordinates])
 
     def length(self):
         return len(self.coordinates)
@@ -177,6 +177,9 @@ class Vector(object):
 
     def __neg__(self):
         return Vector([-x for x in self.coordinates])
+
+    def __getitem__(self, i):
+        return self.coordinates[i]
 
 
 if __name__ == "__main__":

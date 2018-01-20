@@ -2,7 +2,7 @@ from decimal import Decimal, getcontext
 from math import sqrt, acos, pi
 from vector import Vector
 
-getcontext().prec = 5
+getcontext().prec = 30
 
 
 class Line(object):
