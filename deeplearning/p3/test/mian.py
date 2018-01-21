@@ -45,4 +45,10 @@ def compute(scalar_n, scalar_d, add_n, add_d, to_add_n, to_add_d):
     print '{} * {} + {} = {}'.format(add,scalar,to_add,res)
 
 
-compute(5, 1, 3, 7, 6, 1)
+compute(-1, 2, 11, 65, -1, 10)
+
+# class my_linsys():
+#     def __init__(self, l, c):
+#         if len(l) != c:
+#             raise ValueError
+

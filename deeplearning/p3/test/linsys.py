@@ -210,7 +210,7 @@ class LinearSystem(object):
                     raise e
 
     def raise_exception_if_too_few_pivots(self):
-        pivot_indices =self.indices_of_first_nonzero_terms_in_each_row()
+        pivot_indices = self.indices_of_first_nonzero_terms_in_each_row()
         num_pivots = sum([1 if index >= 0 else 0 for index in pivot_indices])
         num_variables = self.dimension
 
